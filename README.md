@@ -18,7 +18,6 @@ To that end, it does the following:
 - Exclude `mailto` links from this logic
 - Expose a `setRef` method that when a value is passed in, will ensure that the
 following URL param gets appended to all outbound links: `?ref=website.com`
-- 
 
 That's it for now, but I'll likely add in some extra options to do a better
 job at handling `mailto` cases (specifically, dealing with the `subject` and
