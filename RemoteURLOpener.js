@@ -21,10 +21,54 @@ var RemoteURLOpener = (function() {
      * @var     Object
      */
     var __config = {
+
+        /**
+         * ignoreClassNames
+         * 
+         * An array of class names that will result in those respective elements
+         * being excluded from any event binding.
+         * 
+         * In english: elements with one of these class names will not have a
+         * click event trigger a new tab or window.
+         * 
+         * @access  private
+         * @var     Object
+         */
         ignoreClassNames: [
             'remote-urls-ignore'
         ],
-        validHosts: [
+
+        /**
+         * includeMailtoElements
+         * 
+         * Whether elements pointing to a mailto: flow ought to open in a new
+         * tab or window.
+         * 
+         * @access  private
+         * @var     Boolean (default: true)
+         */
+        includeMailtoElements: true,
+
+        /**
+         * outboundClickParams
+         * 
+         * @access  private
+         * @var     Object (default: {})
+         */
+        outboundClickParams: {},
+
+        /**
+         * validHostnames
+         * 
+         * An array of hostnames that are excluded from any event binding.
+         * 
+         * In english: any element on the page that has a hostname in this array
+         * will not have a click event trigger a new tab or window.
+         * 
+         * @access  private
+         * @var     Object
+         */
+        validHostnames: [
             window.location.host
         ]
     };
@@ -77,6 +121,28 @@ var RemoteURLOpener = (function() {
     };
 
     /**
+     * __getOutboundURL
+     * 
+     * @see     https://developer.mozilla.org/en-US/docs/Web/API/URL
+     * @access  private
+     * @param   HTMLElement $element
+     * @return  String
+     */
+    var __getOutboundURL = function($element) {
+        var href = $element.getAttribute('href');
+        if (__isMailtoElement($element) === true) {
+            return href;
+        }
+        var url = new URL(href);
+        for (var key in __config.outboundClickParams) {
+            var value = __config.outboundClickParams[key];
+            url.searchParams.append(key, value);
+        }
+        url = url.toString();
+        return url;
+    };
+
+    /**
      * __getSelector
      * 
      * @access  private
@@ -100,8 +166,31 @@ var RemoteURLOpener = (function() {
      */
     var __handleClickEvent = function(event) {
         event.preventDefault();
-        var destination = this.getAttribute('href');
-        window.open(destination);
+        var $element = this,
+            url = __getOutboundURL($element);
+        window.open(url);
+    };
+
+    /**
+     * __isMailtoElement
+     * 
+     * @access  private
+     * @param   HTMLElement $element
+     * @return  void
+     */
+    var __isMailtoElement = function($element) {
+        var href = $element.getAttribute('href');
+        if (href === null) {
+            return false;
+        }
+        if (href === undefined) {
+            return false;
+        }
+        var pattern = /^mailto\:/i;
+        if (href.match(pattern) === null) {
+            return false;
+        }
+        return true;
     };
 
     /**
@@ -112,11 +201,14 @@ var RemoteURLOpener = (function() {
      * @return  Boolean
      */
     var __remotableElement = function($element) {
+        if (__config.includeMailtoElements && __isMailtoElement($element) === true) {
+            return true;
+        }
         var hostname = $element.hostname;
         if (hostname === '') {
             return false;
         }
-        if (__config.validHosts.includes(hostname) === true) {
+        if (__config.validHostnames.includes(hostname) === true) {
             return false;
         }
         if (__elementAlreadyOpeningExternally($element) === true) {
@@ -159,6 +251,17 @@ var RemoteURLOpener = (function() {
     return {
 
         /**
+         * init
+         * 
+         * @access  public
+         * @return  Boolean
+         */
+        init: function() {
+            __scan();
+            return true;
+        },
+
+        /**
          * setConfig
          * 
          * @access  public
@@ -177,14 +280,19 @@ var RemoteURLOpener = (function() {
         },
 
         /**
-         * init
+         * setRef
          * 
          * @access  public
+         * @param   String ref
          * @return  Boolean
          */
-        init: function() {
-            __scan();
-            return true;
+        setRef: function(ref) {
+            var key = 'outboundClickParams',
+                params = {};
+            params.ref = ref;
+            var value = params,
+                response = RemoteURLOpener.setConfig(key, value);
+            return response;
         }
     };
 })();
