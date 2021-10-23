@@ -16,6 +16,8 @@ To that end, it does the following:
 - Compare the `hostname` of any link on a page, and if it's no in the
 `config.validHostnames` array, open it in a new tab or window.
 - Exclude `mailto` links from this logic
+- Exclude any elements that have a class name value in the
+`config.ignoreClassNames` array
 - Expose a `setRef` method that when a value is passed in, will ensure that the
 following URL param gets appended to all outbound links: `?ref=website.com`
 
@@ -30,3 +32,6 @@ Usage is very simple:
 RemoteURLOpener.init();
 RemoteURLOpener.setRef('iconduck.com');
 ```
+
+Make sure you run this after the DOM has loadded. It'll simply add a click event
+listener on any applicable links
