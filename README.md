@@ -34,4 +34,5 @@ RemoteURLOpener.setRef('iconduck.com');
 ```
 
 Make sure you run this after the DOM has loadded. It'll simply add a click event
-listener on any applicable links
+listener on any applicable links and run a `window.open` call against the `href`
+value.
