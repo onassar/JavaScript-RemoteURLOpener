@@ -2,7 +2,7 @@
 We here at [Iconduck](https://iconduck.com/?ref=github.com) take opening URLs
 very seriously. And also, we're lazy.
 
-I (Oliver Nassar) got super tired of having to define `target="_blank"` on
+I (@onassar) got super tired of having to define `target="_blank"` on
 links, as well as adding query params like `?ref=iconduck.com` at the end of
 anchor `href` values.
 
