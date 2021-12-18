@@ -36,3 +36,7 @@ RemoteURLOpener.setRef('iconduck.com');
 Make sure you run this after the DOM has loaded. It'll simply add a click event
 listener on any applicable links and run a `window.open` call against the `href`
 value.
+
+### TODO
+- Add support for elements that are added to the DOM after the initial `init`
+call. This is super-important for Single Page Apps (SPAs).
