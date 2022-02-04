@@ -50,6 +50,22 @@ var RemoteURLOpener = (function() {
         includeMailtoElements: true,
 
         /**
+         * invalidProtocols
+         * 
+         * Any elements that are pointing to resources, but with a protocol
+         * defined in this array, will not have a click event listener bound to
+         * them. This is because those resources are "special", and event
+         * listeners should not get between them and the default browser/client
+         * behaviour.
+         * 
+         * @access  private
+         * @var     Array
+         */
+        invalidProtocols: [
+            'chrome'
+        ],
+
+        /**
          * outboundClickParams
          * 
          * @access  private
@@ -66,7 +82,7 @@ var RemoteURLOpener = (function() {
          * will not have a click event trigger a new tab or window.
          * 
          * @access  private
-         * @var     Object
+         * @var     Array
          */
         validHostnames: [
             window.location.host
@@ -194,6 +210,26 @@ var RemoteURLOpener = (function() {
     };
 
     /**
+     * __isReservedElement
+     * 
+     * @access  private
+     * @param   HTMLElement $element
+     * @return  void
+     */
+    var __isReservedElement = function($element) {
+        var href = $element.getAttribute('href'),
+            invalidProtocols = __config.invalidProtocols,
+            url = new URL(href);
+        for (var invalidProtocol of invalidProtocols) {
+            invalidProtocol = (invalidProtocol) + ':';
+            if (invalidProtocol === url.protocol) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    /**
      * __remotableElement
      * 
      * @access  private
@@ -239,6 +275,9 @@ var RemoteURLOpener = (function() {
             $elements = document.querySelectorAll(selector);
         for (var $element of $elements) {
             if (__remotableElement($element) === false) {
+                continue;
+            }
+            if (__isReservedElement($element) === true) {
                 continue;
             }
             __addClickEventListener($element);
