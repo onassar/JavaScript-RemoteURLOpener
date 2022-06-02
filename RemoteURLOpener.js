@@ -212,14 +212,19 @@ var RemoteURLOpener = (function() {
     /**
      * __isReservedElement
      * 
+     * @see     https://i.imgur.com/Qnj3yBU.png
      * @access  private
      * @param   HTMLElement $element
-     * @return  void
+     * @return  Boolean
      */
     var __isReservedElement = function($element) {
-        var href = $element.getAttribute('href'),
-            invalidProtocols = __config.invalidProtocols,
-            url = new URL(href);
+        try {
+            var href = $element.getAttribute('href'),
+                invalidProtocols = __config.invalidProtocols,
+                url = new URL(href);
+        } catch (err) {
+            return false;
+        }
         for (var invalidProtocol of invalidProtocols) {
             invalidProtocol = (invalidProtocol) + ':';
             if (invalidProtocol === url.protocol) {
