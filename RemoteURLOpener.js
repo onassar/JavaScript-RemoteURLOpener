@@ -290,7 +290,8 @@ var RemoteURLOpener = (function() {
     };
 
     /**
-     * Public methods
+     * Methods (public)
+     * 
      */
     return {
 
