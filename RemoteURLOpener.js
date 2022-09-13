@@ -10,7 +10,7 @@
 var RemoteURLOpener = (function() {
 
     /**
-     * Properties
+     * Properties (private)
      * 
      */
 
