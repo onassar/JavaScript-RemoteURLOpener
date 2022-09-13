@@ -98,7 +98,7 @@ var RemoteURLOpener = (function() {
     var __string = 'RemoteURLOpener';
 
     /**
-     * Methods
+     * Methods (private)
      * 
      */
 
