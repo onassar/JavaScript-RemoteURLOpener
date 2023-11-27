@@ -10,7 +10,7 @@
 var RemoteURLOpener = (function() {
 
     /**
-     * Properties
+     * Properties (private)
      * 
      */
 
@@ -98,7 +98,7 @@ var RemoteURLOpener = (function() {
     var __string = 'RemoteURLOpener';
 
     /**
-     * Methods
+     * Methods (private)
      * 
      */
 
@@ -290,7 +290,8 @@ var RemoteURLOpener = (function() {
     };
 
     /**
-     * Public methods
+     * Methods (public)
+     * 
      */
     return {
 
