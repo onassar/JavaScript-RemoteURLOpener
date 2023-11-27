@@ -1,10 +1,9 @@
 # JavaScript-RemoteURLOpener
-We here at [Iconduck](https://iconduck.com/?ref=github.com) take opening URLs
-very seriously. And also, we're lazy.
+I take opening URLs very seriously. And also, I'm lazy.
 
-I ([@onassar](https://github.com/onassar)) got super tired of having to define `target="_blank"` on
-links, as well as adding query params like `?ref=iconduck.com` at the end of
-anchor `href` values.
+I got super tired of having to define `target="_blank"` on links, as well as
+adding query params like `?ref=onassar.github.io` at the end of anchor `href`
+values.
 
 So, I built a nice little, creatively named, library called
 `JavaScript-RemoteURLOpener`.
@@ -30,7 +29,7 @@ Usage is very simple:
 
 ``` javascript
 RemoteURLOpener.init();
-RemoteURLOpener.setRef('iconduck.com');
+RemoteURLOpener.setRef('onassar.github.io');
 ```
 
 Make sure you run this after the DOM has loaded. It'll simply add a click event
